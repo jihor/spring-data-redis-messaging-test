@@ -1,0 +1,21 @@
+apply plugin: "com.palantir.docker"
+apply plugin: "spring-boot"
+
+docker {
+    name "jihor/spring-data-redis-messaging-backend-service:$revision"
+    dependsOn jar, bootRepackage
+}
+
+dependencies {
+    compile project(":logging"),
+            "com.googlecode.json-simple:json-simple",
+            "org.codehaus.groovy:groovy-all",
+            "org.spockframework:spock-core",
+            "org.spockframework:spock-spring",
+            "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.data:spring-data-redis",
+            "org.springframework:spring-beans",
+            "org.springframework:spring-test",
+            "org.springframework:spring-web",
+            "redis.clients:jedis"
+}

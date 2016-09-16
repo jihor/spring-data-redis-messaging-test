@@ -1,0 +1,2 @@
+rootProject.name = "spring-data-redis-messaging-test"
+include "logging", "frontend-service", "backend-service"

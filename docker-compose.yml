@@ -1,0 +1,29 @@
+version: '2'
+services:
+    redis:
+        image: redis
+        container_name: "redis"
+        ports:
+            - "6379:6379" #not required by these containers, but used for other tests
+    backend:
+        image: "jihor/spring-data-redis-messaging-backend-service:latest"
+        container_name: "backend-service"
+        ports:
+            - "8090:8080"
+        environment:
+            - "log.level=DEBUG"
+        volumes:
+            - ./logs-backend:/logs
+        depends_on:
+            - redis
+    frontend:
+        image: "jihor/spring-data-redis-messaging-frontend-service:latest"
+        container_name: "frontend-service"
+        ports:
+            - "8080:8080"
+        environment:
+            - "log.level=DEBUG"
+        volumes:
+            - ./logs-frontend:/logs
+        depends_on:
+            - redis

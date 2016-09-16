@@ -1,0 +1,5 @@
+dependencies {
+    compile "org.projectlombok:lombok",
+            "ch.qos.logback:logback-classic",
+            "org.codehaus.groovy:groovy-all"
+}
