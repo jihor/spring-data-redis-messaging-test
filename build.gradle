@@ -59,6 +59,7 @@ subprojects {
             dependency "org.slf4j:jcl-over-slf4j:1.7.12"
             dependency "org.spockframework:spock-core:1.0-groovy-2.4"
             dependency "redis.clients:jedis:2.8.1"
+            dependency "org.apache.thrift:libthrift:0.9.3"
         }
     }
 }

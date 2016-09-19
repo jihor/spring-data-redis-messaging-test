@@ -8,6 +8,7 @@ docker {
 
 dependencies {
     compile project(":logging"),
+            project(":data-model"),
             "com.googlecode.json-simple:json-simple",
             "org.codehaus.groovy:groovy-all",
             "org.spockframework:spock-core",

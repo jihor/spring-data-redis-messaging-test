@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.MessageListener
 import org.springframework.data.redis.core.RedisTemplate
+import ru.rgs.rnd.messaging.datamodel.Request
+import ru.rgs.rnd.messaging.datamodel.Response
 
-import javax.annotation.PostConstruct
 import java.util.concurrent.TimeUnit
 /**
  *
@@ -18,18 +19,19 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ListenerConfiguration {
     @Autowired
-    RedisTemplate redisTemplate
+    RedisTemplate<String, Response> redisTemplate
 
     @Bean
-    MessageListener responseListener(){
+    MessageListener responseListener() {
         new MessageListener() {
             @Override
             void onMessage(Message message, byte[] pattern) {
-                log.info "Received request: $message"
-                String response = "Hello there $message".toString()
-                String key = message.toString()
-                redisTemplate.opsForHash().put(key, "response", response)
-                redisTemplate.expire(key, 1, TimeUnit.MINUTES)
+                def req = new ObjectInputStream(new ByteArrayInputStream(message.body)).readObject() as Request
+                log.info "Received request: [$req] of class ${req.class.simpleName}"
+                String key = req.firstName
+
+                Response resp = Response.builder().errorString('0').response("Hello there $key".toString()).build()
+                redisTemplate.opsForValue().set(key, resp, 1, TimeUnit.MINUTES)
             }
         }
     }

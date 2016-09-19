@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
-import org.springframework.data.redis.core.StringRedisTemplate
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.web.bind.annotation.RestController
 /**
  * @author jihor (dmitriy_zhikharev@rgs.ru)
@@ -35,7 +35,10 @@ class MainConfiguration {
     }
 
     @Bean
-    StringRedisTemplate redisTemplate(RedisConnectionFactory cf){
-        new StringRedisTemplate(cf)
+    RedisTemplate redisTemplate(RedisConnectionFactory cf){
+        def template = new RedisTemplate()
+        template.setConnectionFactory(cf)
+        template.afterPropertiesSet()
+        template
     }
 }
